@@ -1,55 +1,320 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meri Professional Website</title>
+  <title>Kunal Sarania | Portfolio</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background-color: #0f172a; color: #f8fafc; line-height: 1.6; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: #1e293b; }
-    .logo { font-size: 20px; font-weight: 700; color: #38bdf8; }
-    .admin-btn { padding: 8px 16px; background: #334155; border-radius: 6px; color: #fff; text-decoration: none; }
-    .hero { text-align: center; padding: 60px 20px 30px; max-width: 800px; margin: auto; }
-    .hero h1 { font-size: 38px; margin-bottom: 15px; }
-    .contact-card { max-width: 480px; margin: 30px auto 60px; background: #1e293b; padding: 30px; border-radius: 10px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-size: 14px; margin-bottom: 5px; color: #94a3b8; }
-    input, textarea { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; }
-    button { width: 100%; padding: 12px; background: #0284c7; border: none; border-radius: 6px; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+    :root {
+      --bg-main: #0b1120;
+      --bg-card: #1e293b;
+      --bg-hover: #334155;
+      --primary: #38bdf8;
+      --primary-dark: #0284c7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+
+    /* Navigation */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 8%; background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
+    }
+    .logo { font-size: 22px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+    .logo span { color: var(--primary); }
+    nav { display: flex; gap: 20px; align-items: center; }
+    nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: var(--primary); }
+    .admin-nav-btn {
+      padding: 6px 14px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--primary);
+      border-radius: 6px; color: var(--primary); text-decoration: none; font-size: 13px; font-weight: 600;
+    }
+    .admin-nav-btn:hover { background: var(--primary); color: #000; }
+
+    /* Hero Section */
+    .hero {
+      min-height: 80vh; display: flex; align-items: center; justify-content: space-between;
+      padding: 60px 8%; max-width: 1200px; margin: auto; gap: 40px; flex-wrap: wrap-reverse;
+    }
+    .hero-text { flex: 1; min-width: 300px; }
+    .badge {
+      display: inline-block; padding: 5px 12px; background: rgba(56, 189, 248, 0.12);
+      color: var(--primary); border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 15px;
+    }
+    .hero-text h1 { font-size: 44px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; }
+    .hero-text p { color: var(--text-muted); font-size: 16px; margin-bottom: 25px; }
+    
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 25px; }
+    .btn {
+      padding: 11px 22px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s;
+    }
+    .btn-primary { background: var(--primary-dark); color: #fff; border: none; }
+    .btn-primary:hover { background: #0369a1; }
+    .btn-outline { background: transparent; color: #fff; border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-hover); }
+
+    .social-links { display: flex; gap: 15px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card);
+      display: flex; align-items: center; justify-content: center; color: var(--text-muted);
+      text-decoration: none; font-size: 17px; border: 1px solid var(--border); transition: 0.3s;
+    }
+    .social-links a:hover { color: var(--primary); border-color: var(--primary); transform: translateY(-3px); }
+
+    .hero-avatar {
+      flex: 1; min-width: 280px; display: flex; justify-content: center;
+    }
+    .avatar-box {
+      width: 280px; height: 280px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #38bdf8);
+      padding: 6px; box-shadow: 0 0 40px rgba(56, 189, 248, 0.25);
+    }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%; background: var(--bg-card);
+      display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 80px;
+    }
+
+    /* Section Global */
+    section { padding: 80px 8%; max-width: 1200px; margin: auto; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title h2 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .section-title p { color: var(--text-muted); font-size: 15px; }
+
+    /* About & Skills */
+    .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 750px; margin: auto; }
+    .skill-tag {
+      padding: 8px 18px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px;
+    }
+    .skill-tag i { color: var(--primary); }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
+    }
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 24px; transition: transform 0.3s, border-color 0.3s; display: flex; flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .project-card h3 { font-size: 20px; margin-bottom: 10px; color: var(--text-main); }
+    .project-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; flex-grow: 1; }
+    .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .project-tags span { font-size: 12px; background: var(--bg-main); padding: 4px 10px; border-radius: 6px; color: var(--primary); }
+    .project-links { display: flex; gap: 15px; }
+    .project-links a { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 600; }
+
+    /* Contact Section */
+    .contact-container {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .info-item { display: flex; align-items: center; gap: 15px; background: var(--bg-card); padding: 18px; border-radius: 10px; border: 1px solid var(--border); }
+    .info-item i { font-size: 22px; color: var(--primary); }
+    .info-item h4 { font-size: 14px; color: var(--text-muted); }
+    .info-item p { font-size: 15px; font-weight: 500; }
+
+    .contact-form {
+      background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border);
+    }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); }
+    input, textarea {
+      width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border);
+      border-radius: 8px; color: #fff; font-size: 14px; outline: none; transition: 0.3s;
+    }
+    input:focus, textarea:focus { border-color: var(--primary); }
+    .btn-submit { width: 100%; padding: 13px; border-radius: 8px; background: var(--primary-dark); color: #fff; border: none; font-weight: 600; cursor: pointer; }
+    .btn-submit:hover { background: #0369a1; }
     .status-msg { margin-top: 15px; text-align: center; font-size: 14px; }
+
+    /* Footer */
+    footer { text-align: center; padding: 30px 8%; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px; }
+    footer a { color: var(--primary); text-decoration: none; }
   </style>
 </head>
 <body>
+
+  <!-- Navigation -->
   <header>
-    <div class="logo">My Website</div>
-    <a href="/admin.html" class="admin-btn">Admin Portal</a>
+    <a href="#" class="logo">Kunal<span>.</span></a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="/admin.html" class="admin-nav-btn"><i class="fa-solid fa-lock"></i> Admin Portal</a>
+    </nav>
   </header>
 
-  <section class="hero">
-    <h1>Welcome to My Full-Stack Website</h1>
-    <p>Niche diye gaye form se hume message bhein.</p>
+  <!-- 1. Hero & About Section -->
+  <section class="hero" id="about">
+    <div class="hero-text">
+      <span class="badge"><i class="fa-solid fa-code"></i> Full-Stack Web Developer</span>
+      <h1>Hi, I'm Kunal Sarania</h1>
+      <p>I build fast, responsive, and functional web applications with clean design and robust backend APIs. Passionate about technology, creative writing, and digital solutions.</p>
+      
+      <!-- 3. Resume & Quick Contact Buttons -->
+      <div class="btn-group">
+        <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Get in Touch</a>
+        <a href="#projects" class="btn btn-outline"><i class="fa-solid fa-briefcase"></i> View Work</a>
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn btn-outline" style="color: #25d366; border-color: rgba(37,211,102,0.3);"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      </div>
+
+      <div class="social-links">
+        <a href="https://github.com/kunalsarania" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="mailto:ksarania15k@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <div class="hero-avatar">
+      <div class="avatar-box">
+        <div class="avatar-inner">
+          <i class="fa-solid fa-user-tie"></i>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <div class="contact-card">
-    <h2 style="margin-bottom: 15px;">Contact Us</h2>
-    <form id="contactForm">
-      <div class="form-group">
-        <label>Aapka Naam</label>
-        <input type="text" id="name" required />
+  <!-- Skills -->
+  <section style="padding-top: 0;">
+    <div class="section-title">
+      <h2>Tech Stack & Skills</h2>
+      <p>Technologies and tools I work with daily</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-tag"><i class="fa-brands fa-html5"></i> HTML5 & CSS3</div>
+      <div class="skill-tag"><i class="fa-brands fa-js"></i> JavaScript (ES6+)</div>
+      <div class="skill-tag"><i class="fa-brands fa-node-js"></i> Node.js & Express</div>
+      <div class="skill-tag"><i class="fa-solid fa-database"></i> JSON / REST APIs</div>
+      <div class="skill-tag"><i class="fa-brands fa-git-alt"></i> Git & GitHub</div>
+      <div class="skill-tag"><i class="fa-solid fa-cloud-arrow-up"></i> Render & Cloud Deploy</div>
+    </div>
+  </section>
+
+  <!-- 2. Projects Showcase -->
+  <section id="projects">
+    <div class="section-title">
+      <h2>Featured Projects</h2>
+      <p>A few projects showcasing frontend design and backend integration</p>
+    </div>
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="project-card">
+        <h3>Full-Stack Inquiry System</h3>
+        <p>A production web service equipped with dynamic contact messaging, REST API integration, and an authenticated administrative dashboard for inquiry management.</p>
+        <div class="project-tags">
+          <span>Node.js</span>
+          <span>Express</span>
+          <span>JSON DB</span>
+          <span>Render</span>
+        </div>
+        <div class="project-links">
+          <a href="/admin.html">View Admin Demo &rarr;</a>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Aapka Email</label>
-        <input type="email" id="email" required />
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <h3>Institutional Web Portal</h3>
+        <p>A responsive multi-page web platform featuring college updates, dynamic resources, responsive navigation, and optimized static asset hosting.</p>
+        <div class="project-tags">
+          <span>HTML5</span>
+          <span>CSS3</span>
+          <span>JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="#">Explore Project &rarr;</a>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea id="message" rows="4" required></textarea>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+        <h3>Personal Portfolio & Blog</h3>
+        <p>A modern developer portfolio designed with dark mode styling, responsive typography, and social communication channels.</p>
+        <div class="project-tags">
+          <span>Modern UI</span>
+          <span>CSS Grid</span>
+          <span>Responsive</span>
+        </div>
+        <div class="project-links">
+          <a href="#about">Current Site &rarr;</a>
+        </div>
       </div>
-      <button type="submit">Send Message</button>
-      <div id="status" class="status-msg"></div>
-    </form>
-  </div>
+    </div>
+  </section>
+
+  <!-- Contact Form & Details -->
+  <section id="contact">
+    <div class="section-title">
+      <h2>Let's Connect</h2>
+      <p>Send a direct message or reach out via official contact points</p>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="info-item">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <h4>Email</h4>
+            <p>ksarania15k@gmail.com</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <h4>Location</h4>
+            <p>Assam, India</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <i class="fa-solid fa-clock"></i>
+          <div>
+            <h4>Availability</h4>
+            <p>Open for Projects & Collaborations</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3 style="margin-bottom: 15px;">Send a Message</h3>
+        <form id="contactForm">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Your email address" required />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="message" rows="4" placeholder="How can I help you?" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Message</button>
+          <div id="status" class="status-msg"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Kunal Sarania. All rights reserved. | <a href="/admin.html">Admin Portal</a></p>
+  </footer>
 
   <script>
     const form = document.getElementById('contactForm');
@@ -58,7 +323,7 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.style.color = '#38bdf8';
-      status.innerText = 'Bheja ja raha hai...';
+      status.innerText = 'Sending message...';
 
       try {
         const res = await fetch('/api/contact', {
@@ -81,7 +346,7 @@
         }
       } catch (err) {
         status.style.color = '#f87171';
-        status.innerText = 'Server connect nahi ho raha hai.';
+        status.innerText = 'Server connection error.';
       }
     });
   </script>
