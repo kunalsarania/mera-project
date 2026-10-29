@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meri Professional Website</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; line-height: 1.6; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: #1e293b; }
+    .logo { font-size: 20px; font-weight: 700; color: #38bdf8; }
+    .admin-btn { padding: 8px 16px; background: #334155; border-radius: 6px; color: #fff; text-decoration: none; }
+    .hero { text-align: center; padding: 60px 20px 30px; max-width: 800px; margin: auto; }
+    .hero h1 { font-size: 38px; margin-bottom: 15px; }
+    .contact-card { max-width: 480px; margin: 30px auto 60px; background: #1e293b; padding: 30px; border-radius: 10px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-size: 14px; margin-bottom: 5px; color: #94a3b8; }
+    input, textarea { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; }
+    button { width: 100%; padding: 12px; background: #0284c7; border: none; border-radius: 6px; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .status-msg { margin-top: 15px; text-align: center; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">My Website</div>
+    <a href="/admin.html" class="admin-btn">Admin Portal</a>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome to My Full-Stack Website</h1>
+    <p>Niche diye gaye form se hume message bhein.</p>
+  </section>
+
+  <div class="contact-card">
+    <h2 style="margin-bottom: 15px;">Contact Us</h2>
+    <form id="contactForm">
+      <div class="form-group">
+        <label>Aapka Naam</label>
+        <input type="text" id="name" required />
+      </div>
+      <div class="form-group">
+        <label>Aapka Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="message" rows="4" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+      <div id="status" class="status-msg"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.style.color = '#38bdf8';
+      status.innerText = 'Bheja ja raha hai...';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          status.style.color = '#4ade80';
+          status.innerText = data.message;
+          form.reset();
+        } else {
+          status.style.color = '#f87171';
+          status.innerText = data.error;
+        }
+      } catch (err) {
+        status.style.color = '#f87171';
+        status.innerText = 'Server connect nahi ho raha hai.';
+      }
+    });
+  </script>
+</body>
+</html>

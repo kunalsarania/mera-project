@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body { background: #0f172a; color: #f8fafc; padding: 30px 5%; }
+    .container { max-width: 850px; margin: auto; }
+    .card { background: #1e293b; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
+    input { width: 100%; padding: 10px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; margin: 10px 0; }
+    button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-blue { background: #0284c7; color: #fff; }
+    .btn-red { background: #ef4444; color: #fff; padding: 6px 10px; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 14px; }
+    th { color: #94a3b8; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="loginSection" class="card" style="max-width: 380px; margin: 80px auto;">
+      <h2>Admin Login</h2>
+      <p style="font-size: 13px; color: #94a3b8; margin-top: 5px;">Password: <b>admin@123password</b></p>
+      <input type="password" id="adminPass" placeholder="Enter password" />
+      <button class="btn-blue" onclick="handleLogin()" style="width: 100%;">Login</button>
+      <p id="loginError" style="color: #f87171; font-size: 13px; margin-top: 10px;"></p>
+    </div>
+
+    <div id="dashboardSection" class="hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Inquiries Dashboard</h2>
+        <div>
+          <a href="/index.html" style="color: #38bdf8; margin-right: 15px;">Website Par Jayein</a>
+          <button class="btn-red" onclick="handleLogout()">Logout</button>
+        </div>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Name</th><th>Email</th><th>Message</th><th>Action</th></tr>
+          </thead>
+          <tbody id="messagesTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let token = sessionStorage.getItem('adminToken');
+    if (token) showDashboard();
+
+    async function handleLogin() {
+      const password = document.getElementById('adminPass').value;
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        sessionStorage.setItem('adminToken', data.token);
+        token = data.token;
+        showDashboard();
+      } else {
+        document.getElementById('loginError').innerText = data.error;
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('adminToken');
+      location.reload();
+    }
+
+    function showDashboard() {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      loadMessages();
+    }
+
+    async function loadMessages() {
+      const res = await fetch('/api/admin/messages', { headers: { 'Authorization': token } });
+      const result = await res.json();
+      if (result.success) {
+        const tbody = document.getElementById('messagesTable');
+        tbody.innerHTML = '';
+        if (result.data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Koi messages nahi hain.</td></tr>';
+          return;
+        }
+        result.data.forEach(item => {
+          tbody.innerHTML += `<tr>
+            <td style="color:#94a3b8;">${item.date}</td>
+            <td><b>${item.name}</b></td>
+            <td>${item.email}</td>
+            <td>${item.message}</td>
+            <td><button class="btn-red" onclick="deleteMessage('${item.id}')">Delete</button></td>
+          </tr>`;
+        });
+      }
+    }
+
+    async function deleteMessage(id) {
+      if (!confirm('Delete karna chahte hain?')) return;
+      await fetch(`/api/admin/messages/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': token }
+      });
+      loadMessages();
+    }
+  </script>
+</body>
+</html>
